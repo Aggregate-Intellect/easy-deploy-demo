@@ -1,15 +1,14 @@
 # easy-deploy-demo
-This is a small app built for the
-[Build Multi-agent LLM Products](https://maven.com/aggregate-intellect/llm-systems?promoCode=aisc) course. The goal is to demonstrate simple deployment of a Python web app with
-a chat-style interface, powered by a Large Language Model.
+This is a small demo built for the
+[Build Multi-agent LLM Products](https://maven.com/aggregate-intellect/llm-systems?promoCode=aisc) course. The goal is to demonstrate simple deployment of a Python web app powered by a Large Language Model.
 
 The app uses these major components:
 * [Chainlit](https://docs.chainlit.io/) for a chat-style UI built in Python
-* the [OpenAI library](https://platform.openai.com/docs/libraries) for LLM chat completions
-* [Autogen](https://github.com/microsoft/autogen) for multi-agent app framework
+* [OpenAI library](https://platform.openai.com/docs/libraries) for LLM chat completions
+* [Autogen](https://github.com/microsoft/autogen) multi-agent app framework
 * [Fly.io](https://fly.io) for deployment
 
-While this demo isn't meant to be an endorsement of any particular tech, we have found this particular stack quite convenient for quick and easy deploys of chat-style LLM apps.
+While this demo isn't meant to be an endorsement of any particular product or tech, we have found this particular stack quite convenient for quick and easy deploys of chat-style LLM apps.
 
 
 ## Pre-requisites
@@ -21,7 +20,7 @@ While this demo isn't meant to be an endorsement of any particular tech, we have
 
 
 ## Step 0: Select an app
-There are two apps in this repository:
+There are two demo apps in this repository:
 
 * chainlit-chat: a simple Q&A-style chatbot
 * chainlit-autogen: a dialog between two agents, implented with PyAutogen
@@ -112,6 +111,11 @@ application file.
 
 After deploy finishes you should
 have the demo app running at a URL on the `fly.dev` domain. Enjoy!
+
+> [!WARNING]  
+> At this point your app is deployed on the internet, unprotected.
+> Anyone can use it unless you block it with authentication.
+> You may incur costs as your OpenAI API key is tied to your credit card.
 
 You can now make changes to files on your local machine,
 save the changes, run locally (use the `-w` flag to get automatic reload), and redeploy using `fly deploy`. For example, try
