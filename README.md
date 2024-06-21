@@ -1,7 +1,6 @@
 # easy-deploy-demo
 This is a small app built for the
-[Build Multi-agent LLM Products](https://maven.com/aggregate-intellect/llm-systems?promoCode=aisc) course. The goal is to demonstrate how
-straightforward it is deploying a simple Python web app with
+[Build Multi-agent LLM Products](https://maven.com/aggregate-intellect/llm-systems?promoCode=aisc) course. The goal is to demonstrate simple deployment of a Python web app with
 a chat-style interface, providing question-answering powered
 by a Large Language Model.
 
@@ -27,6 +26,8 @@ Begin by cloning this git repo.
 Then, in a terminal within the repository root directory, ...
 
 ```bash
+cd chainlit-chat 
+
 python -m venv .venv 
 
 source .venv/bin/activate
@@ -50,7 +51,6 @@ need to copy the value of our [API key](https://platform.openai.com/account/api-
 
 Copy the sample `.env` file...
 ```bash
-cd chainlit-chat
 cp sample.env .env
 ```
 ... and then edit `.env` to contain your key.
@@ -66,7 +66,6 @@ immediately in your web browser. This is useful for iterative development, and n
 
 
 ## Step 3: Prepare to deploy to fly.io
-Perform the following steps in the repository root directory:
 
 ```bash
 brew install flyctl
@@ -75,7 +74,7 @@ fly auth signup
 
 fly auth login
 
-fly launch --config chainlit-chat/fly.toml --dockerfile Dockerfile  --ignorefile .dockerignore
+fly launch
 ```
 
 You can accept the `fly launch` defaults or tweak them as you see fit.
@@ -87,7 +86,7 @@ created app. Enter the value of your API key.
 ## Step 4: Deploy to fly.io
 
 ```bash
-fly deploy --config chainlit-chat/fly.toml --app chainlit-chat --dockerfile Dockerfile  --ignorefile .dockerignore
+fly deploy
 ```
 
 At this point Fly remotely builds a docker file for you based on the 
@@ -99,11 +98,12 @@ You can now make changes to files on your local machine,
 save the changes, run locally (use the `-w` flag to get automatic reload), and redeploy using `fly deploy`. For example, try
 changing the prompt in `app.py` to give the LLM different instructions.
 
-Using a Dockerfile for your deployment is useful, as you can run your Docker image in many places, including other development laptops and cloud deployment environments that run Docker containers.
+Using a Dockerfile for your deployment gives you the option of running your Docker image in many places, including other development laptops and cloud deployment environments that run Docker containers.
 
-As an alternative to the Docker-based build you can use a pip 
+As an alternative to the Docker-based build you can just provide the pip 
 requirements.txt file. Fly will generate a Dockerfile for you from
-the contents of requirements.txt.
+the contents of requirements.txt. In our experience the deploy takes longer when done
+this way.
 
 
 ## Other useful fly.io commands
