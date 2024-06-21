@@ -33,7 +33,7 @@ source .venv/bin/activate
 
 pip install --upgrade pip
 
-pip install chainlit openai python-dotenv
+pip install -r requirements.txt
 
 chainlit hello
 ```
@@ -46,10 +46,11 @@ If you got stuck anywhere up to here, see the
 
 ## Step 2: Run the app locally
 Since our app will connect to the OpenAI platform we
-need to copy the value of our [API key](https://platform.openai.com/account/api-keys) into a file called `.env` in the root of the repository.
+need to copy the value of our [API key](https://platform.openai.com/account/api-keys) into a file called `.env` in the app directory.
 
 Copy the sample `.env` file...
 ```bash
+cd chainlit-chat
 cp sample.env .env
 ```
 ... and then edit `.env` to contain your key.
@@ -65,17 +66,16 @@ immediately in your web browser. This is useful for iterative development, and n
 
 
 ## Step 3: Prepare to deploy to fly.io
+Perform the following steps in the repository root directory:
 
 ```bash
-pip freeze > requirements.txt
-
 brew install flyctl
 
 fly auth signup
 
 fly auth login
 
-fly launch
+fly launch --config chainlit-chat/fly.toml --dockerfile Dockerfile  --ignorefile .dockerignore
 ```
 
 You can accept the `fly launch` defaults or tweak them as you see fit.
@@ -87,18 +87,23 @@ created app. Enter the value of your API key.
 ## Step 4: Deploy to fly.io
 
 ```bash
-fly deploy
+fly deploy --config chainlit-chat/fly.toml --app chainlit-chat --dockerfile Dockerfile  --ignorefile .dockerignore
 ```
 
-At this point Fly builds a docker file for you based on the contents of the
-`requirements.txt` file and deploys the app.
-This can take a few minutes. After this finishes you should
+At this point Fly remotely builds a docker file for you based on the 
+Dockerfile, and deploys the app.
+This can take a few minutes. After deploy finishes you should
 have the demo app running at a URL on the `fly.dev` domain. Enjoy!
 
 You can now make changes to files on your local machine,
-save the changes, run locally (use the `-w` flag to get automatic reload), and redeploy using `fly deploy`.
+save the changes, run locally (use the `-w` flag to get automatic reload), and redeploy using `fly deploy`. For example, try
+changing the prompt in `app.py` to give the LLM different instructions.
 
-As an alternative to the fully automated build you can create your own Dockerfile in the root of this repository. Fly will build and run your Dockerfile instead of generating one. This is often a useful thing to do, as you can run your Docker image in many places, including other developer laptops and other deployment environments that run Docker containers.
+Using a Dockerfile for your deployment is useful, as you can run your Docker image in many places, including other development laptops and cloud deployment environments that run Docker containers.
+
+As an alternative to the Docker-based build you can use a pip 
+requirements.txt file. Fly will generate a Dockerfile for you from
+the contents of requirements.txt.
 
 
 ## Other useful fly.io commands

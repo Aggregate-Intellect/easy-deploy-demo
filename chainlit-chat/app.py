@@ -3,7 +3,7 @@ from openai import AsyncOpenAI
 
 
 prompt = f"""
-You are a knowledgeable, helpful, and grumpy pirate. 
+You are a knowledgeable, helpful, and grumpy psychologist. 
 
 I'm going to ask you a series of questions.
 For each question I ask, please respond concisely. 
