@@ -128,18 +128,31 @@ requirements.txt file. Fly will generate a Dockerfile for you from
 the contents of requirements.txt. In our experience the deploy takes longer when done
 this way.
 
-
-## Other useful fly.io commands
-Since this app uses sockets (a Chainlit requirement), and we don't have a load balancer in front of it, we want only a single instance of the app to be running in each fly.io deployment region. You can do this with the command 
+## Demo notes
+1. Since these apps use sockets (a Chainlit requirement), and we don't have a load balancer in front of the apps, we want only a single fly.io machine to be running in each fly.io deployment region. You can do this with the command 
 `fly scale count 1 `.
 
-Other useful fly commands:
+2. When you are done playing with the demo on fly.io, put your app to sleep with `fly scale count 0 ` or delete the app entirely from the dashboard. This will prevent other people from using the app and potentially racking up OpenAI usage charges. (In a production situation your app will automatically scale down to zero after a period of inactivity, but it will wake up again upon the next HTTP request.)
+
+3. The Autogen demo involves a dialog between two agents working together to 
+   plot a stock chart. The chart produced by the demo ends up in the `/public` directory of the app. The demo agents tell you
+  the name of the file they produce. You can view this chart, e.g. if the agents tell you the filename
+  is `stock_price_ytd.png` you can append `/public/stock_price_ytd.png` to your app URL and you should see the chart.
+
+4. The Autogen demo requires some Python libraries to be installed, and the agents actually do this installation for
+  you, provided you click "continue" to allow them to do the install. This is impressive, but obviously something
+  you should never permit in a production environment.
+
+
+## Useful fly.io commands
 
 Tail logs: `fly logs`
 
 Restart the app: `fly apps restart`
 
-Scale instances to 0: `fly scale count 0 `
+Scale machine instances to 0: `fly scale machine count 0 `
+
+Scale machine instances to 1: `fly scale count 1 `
 
 SSH to console: `fly ssh console`
 
