@@ -1,12 +1,12 @@
 # easy-deploy-demo
 This is a small app built for the
 [Build Multi-agent LLM Products](https://maven.com/aggregate-intellect/llm-systems?promoCode=aisc) course. The goal is to demonstrate simple deployment of a Python web app with
-a chat-style interface, providing question-answering powered
-by a Large Language Model.
+a chat-style interface, powered by a Large Language Model.
 
 The app uses these major components:
 * [Chainlit](https://docs.chainlit.io/) for a chat-style UI built in Python
 * the [OpenAI library](https://platform.openai.com/docs/libraries) for LLM chat completions
+* [Autogen](https://github.com/microsoft/autogen) for multi-agent app framework
 * [Fly.io](https://fly.io) for deployment
 
 While this demo isn't meant to be an endorsement of any particular tech, we have found this particular stack quite convenient for quick and easy deploys of chat-style LLM apps.
@@ -19,9 +19,20 @@ While this demo isn't meant to be an endorsement of any particular tech, we have
 - A [Fly.io](https://fly.io) account
 
 
-## Step 1: Install
 
+## Step 0: Select an app
+There are two apps in this repository:
+
+* chainlit-chat: a simple Q&A-style chatbot
+* chainlit-autogen: a dialog between two agents, implented with PyAutogen
+
+The steps below are for `chainlit-chat`. To run the other app just 
+substitute the app name `chainlit-autogen`. The steps are otherwise the same.
+
+
+## Step 1: Install
 Begin by cloning this git repo. 
+`git clone https://github.com/Aggregate-Intellect/easy-deploy-demo`
 
 Then, in a terminal within the repository root directory, ...
 
@@ -79,7 +90,11 @@ fly launch
 
 You can accept the `fly launch` defaults or tweak them as you see fit.
 
-Before launching the app, go to your [Fly dashboard](https://fly.io/dashboard/) and add an app secret called `OPENAI_API_KEY` to your newly
+You might need to select a unique application name, if your app name conflicts with
+one that already exists.
+
+Before deploying the app, go to your [Fly dashboard](https://fly.io/dashboard/) and add 
+an app secret called `OPENAI_API_KEY` to your newly
 created app. Enter the value of your API key.
 
 
@@ -91,7 +106,11 @@ fly deploy
 
 At this point Fly remotely builds a docker file for you based on the 
 Dockerfile, and deploys the app.
-This can take a few minutes. After deploy finishes you should
+This can take a few minutes on the very first deploy. Subsequent deploys
+are much faster, especially if you're just editing a few lines of code in the
+application file.  
+
+After deploy finishes you should
 have the demo app running at a URL on the `fly.dev` domain. Enjoy!
 
 You can now make changes to files on your local machine,
@@ -123,3 +142,7 @@ SSH to console: `fly ssh console`
 
 ## Credits
 SVG icons are from the [Chainlit Cookbook](https://github.com/Chainlit/cookbook/tree/b3b6f38da1a28c23e4f46ad54bf1e67b32036590/openai-data-analyst).
+
+## Future Improvements
+* authentication and authorization
+* instrumenting the app to provide observability

@@ -1,0 +1,15 @@
+Dockerfile*
+docker-compose*
+.dockerignore
+*.env
+.chainlit
+.files
+.git
+.gitignore
+README.md
+LICENSE
+.vscode
+__pycache__
+env
+.DS_Store
+poetry.lock
